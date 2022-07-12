@@ -1,4 +1,6 @@
 /// <reference types="@micra/core/service-provider" />
+/// <reference types="@micra/core/service-container" />
+
 declare global {
   namespace Application {
     interface ExpressKernelConfig {
@@ -10,7 +12,9 @@ declare global {
 
     interface Services {
       request: Request;
-      'request-handler': (request: Request) => Promise<Response>;
+      'request-handler': (
+        container: Micra.ServiceContainer,
+      ) => Promise<Response>;
     }
 
     interface Configurations {

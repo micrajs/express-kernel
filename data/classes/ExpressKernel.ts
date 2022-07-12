@@ -75,7 +75,7 @@ export class ExpressKernel implements Micra.Kernel<Server> {
 
           await sendFetchResponse(
             res,
-            (await requestHandler(request)) as NodeResponse,
+            (await requestHandler(container)) as NodeResponse,
           );
         } catch (err) {
           next(
