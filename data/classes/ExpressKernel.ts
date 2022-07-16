@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-non-null-assertion */
 import type {Server} from 'http';
-import createExpressApp from 'express';
+import createExpressApp, {type Express} from 'express';
 import {createNamespace, getNamespace} from 'cls-hooked';
 import {HTTPError, isMicraError, WrappedError} from '@micra/error';
 import {fetch, Headers, Request, Response} from '../polyfill/fetch';
@@ -9,7 +9,9 @@ import {sendFetchResponse} from '../utilities/sendFetchResponse';
 import type {Response as NodeResponse} from '../polyfill/fetch';
 
 export class ExpressKernel implements Micra.Kernel<Server> {
-  constructor(private express = createExpressApp()) {
+  private express: Express = createExpressApp();
+
+  constructor() {
     // Fetch polyfill
     if (!globalThis.fetch) {
       const self = globalThis as any;
@@ -20,6 +22,12 @@ export class ExpressKernel implements Micra.Kernel<Server> {
     }
 
     createNamespace('request');
+
+    this.onConstruct(this.express);
+  }
+
+  onConstruct(_express: Express): void {
+    return;
   }
 
   async boot(application: Micra.Application): Promise<void> {
@@ -90,9 +98,15 @@ export class ExpressKernel implements Micra.Kernel<Server> {
     });
   }
 
-  async run(application: Micra.Application): Promise<Server> {
+  async listen(
+    application: Micra.Application,
+    express: Express,
+  ): Promise<Server> {
     const kernelConfig = application.configuration.get('server-kernel');
+    return express.listen(kernelConfig!.port);
+  }
 
-    return this.express.listen(kernelConfig!.port);
+  async run(application: Micra.Application): Promise<Server> {
+    return this.listen(application, this.express);
   }
 }
