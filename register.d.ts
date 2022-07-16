@@ -27,8 +27,8 @@ declare global {
 
   namespace Micra {
     interface ServiceProvider {
-      registerRequest?(container: ServiceContainer): void | Promise<void>;
-      bootRequest?(container: ServiceContainer): void | Promise<void>;
+      registerRequest?(application: Application): void | Promise<void>;
+      bootRequest?(application: Application): void | Promise<void>;
     }
   }
 

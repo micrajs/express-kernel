@@ -57,13 +57,13 @@ export class ExpressKernel implements Micra.Kernel<Server> {
 
           for (const provider of application.serviceProviders) {
             if (provider.registerRequest) {
-              await provider.registerRequest(container);
+              await provider.registerRequest(application);
             }
           }
 
           for (const provider of application.serviceProviders) {
             if (provider.bootRequest) {
-              await provider.bootRequest(container);
+              await provider.bootRequest(application);
             }
           }
 
