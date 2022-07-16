@@ -9,7 +9,7 @@ import {sendFetchResponse} from '../utilities/sendFetchResponse';
 import type {Response as NodeResponse} from '../polyfill/fetch';
 
 export class ExpressKernel implements Micra.Kernel<Server> {
-  private express: Express = createExpressApp();
+  protected express: Express = createExpressApp();
 
   constructor() {
     // Fetch polyfill
