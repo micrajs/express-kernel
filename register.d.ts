@@ -1,5 +1,6 @@
 /// <reference types="@micra/core/service-provider" />
 /// <reference types="@micra/core/service-container" />
+/// <reference types="@micra/core/router" />
 
 declare global {
   namespace Application {
@@ -12,9 +13,7 @@ declare global {
 
     interface Services {
       request: Request;
-      'request-handler': (
-        container: Micra.ServiceContainer,
-      ) => Promise<Response>;
+      'request-handler': Micra.RequestHandlerManager;
     }
 
     interface Configurations {

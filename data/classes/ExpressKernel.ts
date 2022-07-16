@@ -22,12 +22,6 @@ export class ExpressKernel implements Micra.Kernel<Server> {
     }
 
     createNamespace('request');
-
-    this.onConstruct(this.express);
-  }
-
-  onConstruct(_express: Express): void {
-    return;
   }
 
   async boot(application: Micra.Application): Promise<void> {
@@ -83,7 +77,14 @@ export class ExpressKernel implements Micra.Kernel<Server> {
 
           await sendFetchResponse(
             res,
-            (await requestHandler(container)) as NodeResponse,
+            (await requestHandler.handle({
+              request,
+              use: container.use.bind(container),
+              config: application.configuration.get.bind(
+                application.configuration,
+              ),
+              env: application.environment.get.bind(application.environment),
+            })) as NodeResponse,
           );
         } catch (err) {
           next(
@@ -98,15 +99,8 @@ export class ExpressKernel implements Micra.Kernel<Server> {
     });
   }
 
-  async listen(
-    application: Micra.Application,
-    express: Express,
-  ): Promise<Server> {
-    const kernelConfig = application.configuration.get('server-kernel');
-    return express.listen(kernelConfig!.port);
-  }
-
   async run(application: Micra.Application): Promise<Server> {
-    return this.listen(application, this.express);
+    const kernelConfig = application.configuration.get('server-kernel');
+    return this.express.listen(kernelConfig!.port);
   }
 }
