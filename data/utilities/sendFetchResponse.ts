@@ -23,8 +23,11 @@ export async function writeReadableStreamToWritable(
 
   try {
     await read();
-  } catch (error: any) {
-    writable.destroy(error);
+  } catch (error) {
+    if (error instanceof Error || error === undefined) {
+      writable.destroy(error);
+    }
+
     throw error;
   }
 }

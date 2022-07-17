@@ -19,7 +19,7 @@ export function createFetchRequest(req: express.Request): Request {
   };
 
   if (req.method !== 'GET' && req.method !== 'HEAD') {
-    init.body = req as any;
+    init.body = req as unknown as BodyInit | null | undefined;
   }
 
   return new Request(url.href, init);
