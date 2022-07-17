@@ -1,6 +1,6 @@
 /// <reference types="@micra/core/service-provider" />
 /// <reference types="@micra/core/service-container" />
-/// <reference types="@micra/core/router" />
+/// <reference types="@micra/core/request-handler" />
 
 declare global {
   namespace Application {
