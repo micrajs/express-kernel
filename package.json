@@ -1,6 +1,6 @@
 {
   "name": "@micra/express-kernel",
-  "version": "0.1.0-next.9",
+  "version": "0.1.0-next.10",
   "description": "Micra's Express kernel",
   "repository": {
     "type": "git",
